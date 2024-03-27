@@ -1,6 +1,5 @@
 package DataStructures;
 
-import Classes.State;
 
 /**
  *
@@ -8,8 +7,13 @@ import Classes.State;
  * @param <T>
  */
 public class HashTable<T> extends GenericData {
+    //Atributos de la clase
     private List[] table;
 
+    /**
+     * Constructor
+     * @param size 
+     */
     public HashTable(int size) {
         this.table = new List[size];
         
@@ -17,20 +21,36 @@ public class HashTable<T> extends GenericData {
             this.table[i] = new List();
         }
     }
-
+    
+    /**
+     * Obtiene la tabla
+     * @return 
+     */
     public List[] getTable() {
         return table;
     }
-
+    
+    /**
+     * Cambia la tabla
+     * @param table 
+     */
     public void setTable(List[] table) {
         this.table = table;
     }
     
+    /**
+     * Obtiene el tamaño
+     * @return 
+     */
     public int getSize(){
         return this.table.length;
     }
     
-            
+     /**
+      * Metodo de dispersion
+      * @param values
+      * @return 
+      */       
     private int hash(T... values){
         int idx = 0;
         
@@ -67,7 +87,11 @@ public class HashTable<T> extends GenericData {
     }
     
     
-    
+    /**
+     * Metodo para insertar en el hashTable
+     * @param object
+     * @param attributeNames 
+     */
     public void insert(T object, String... attributeNames){
         T[] values = (T[]) new Object[attributeNames.length];
         
@@ -87,7 +111,11 @@ public class HashTable<T> extends GenericData {
     }
     
     
-    
+    /**
+     * Metodo para obtener del hashTable
+     * @param values_attributes
+     * @return 
+     */
     public T get(T... values_attributes){
         if(values_attributes.length % 2 != 0){
            throw new IllegalArgumentException("Por cada atributo debe de haber un valor");              
@@ -126,7 +154,11 @@ public class HashTable<T> extends GenericData {
         return null;
     }
     
-    
+    /**
+     * Metodo para eliminar del hashTable
+     * @param values_attributes
+     * @return 
+     */
     public T remove(T... values_attributes){
         if(values_attributes.length % 2 != 0){
            throw new IllegalArgumentException("Por cada atributo debe de haber un valor");              

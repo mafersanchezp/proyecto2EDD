@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package GUI;
 
 import Classes.Record;
+import Classes.RoomGroup;
 import Classes.State;
 import DataStructures.BST;
 import DataStructures.HashTable;
@@ -19,28 +16,23 @@ import javax.swing.JLabel;
  * @author Mafer
  */
 public class CheckOutPanel<T extends Comparable<T>> extends javax.swing.JPanel {
+    //Atributos de la clase
     private HashTable stateTable;
-    private BST recordBST;
+    private BST<RoomGroup> roomGroupBST;
     
-    public CheckOutPanel(HashTable stateTable, BST recordBST) {
+    /**
+     * Constructor
+     * @param stateTable
+     * @param recordBST 
+     */
+    public CheckOutPanel(HashTable stateTable, BST roomGroupBST) {
         initComponents();
         this.stateTable = stateTable;    
-        this.recordBST = recordBST;
+        this.roomGroupBST = roomGroupBST;
         
-        errorLabel.setText("");
-        
-        
+        errorLabel.setText("");                
     }
 
-
-    private void setImg(JLabel label, String root){
-          ImageIcon img = new ImageIcon(root);        
-          Icon icon = new ImageIcon(
-              img.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT)
-          );
-          label.setIcon(icon);
-          this.repaint();        
-    }
     
     
     @SuppressWarnings("unchecked")
@@ -51,7 +43,6 @@ public class CheckOutPanel<T extends Comparable<T>> extends javax.swing.JPanel {
         inputName = new javax.swing.JTextField();
         search = new javax.swing.JButton();
         errorLabel = new javax.swing.JLabel();
-        imgCheckOut = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(252, 252, 252));
@@ -104,11 +95,10 @@ public class CheckOutPanel<T extends Comparable<T>> extends javax.swing.JPanel {
         errorLabel.setForeground(new java.awt.Color(255, 0, 0));
         errorLabel.setText("Error Label");
         add(errorLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, -1, -1));
-        add(imgCheckOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, 60, 60));
 
         jLabel3.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         jLabel3.setText("Check-Out");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, -1, -1));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void inputNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputNameFocusGained
@@ -140,48 +130,60 @@ public class CheckOutPanel<T extends Comparable<T>> extends javax.swing.JPanel {
     }//GEN-LAST:event_inputLastNameFocusLost
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
-        errorLabel.setForeground(Color.red);
-        errorLabel.setText("");
-        
-        String name = inputName.getText();
-        String lastName = inputLastName.getText();
-        
-        if(name.isBlank() || lastName.isBlank()){
-            errorLabel.setText("Error: Ingrese todos los campos del formulario");
-        }
-        else{
-            State state = (State) stateTable.get(name, lastName, "name", "lastName");  
-            stateTable.remove(name, lastName, "name", "lastName");
+        try{
             
-            if(state == null){
-                errorLabel.setText("Error: no se encontro el cliente");
+            errorLabel.setForeground(Color.red);
+            errorLabel.setText("");
+
+            String name = inputName.getText();
+            String lastName = inputLastName.getText();
+
+            if(name.isBlank() || lastName.isBlank()){
+                errorLabel.setText("Error: Ingrese todos los campos del formulario");
             }
             else{
-                String id = state.getId();
-                String email = state.getEmail();
-                String sex = state.getSex();
-                String dateIn = state.getDateIn();
-                String roomNum = state.getRoomNum();
-                
-                Record record = new Record(id, name, lastName, email, sex, dateIn, roomNum);
-                
-                recordBST.insert(record, "id");
-                
-                errorLabel.setForeground(Color.green);
-                errorLabel.setText("Check-out realizado con exito!");
+                State state = (State) stateTable.get(name, lastName, "name", "lastName");  
+                stateTable.remove(name, lastName, "name", "lastName");
+
+                if(state == null){
+                    errorLabel.setText("Error: no se encontro el cliente");
+                }
+                else{
+                    String id = state.getId();
+                    String email = state.getEmail();
+                    String sex = state.getSex();
+                    String dateIn = state.getDateIn();
+                    String roomNum = state.getRoomNum();
+
+                    Record record = new Record(id, name, lastName, email, sex, dateIn, roomNum);
+
+                    RoomGroup rg = (RoomGroup) roomGroupBST.get((T) roomNum, "roomNum");
+                    System.out.println(rg);
+                    rg.getGroup().append(record);
+
+                    errorLabel.setForeground(Color.green);
+                    errorLabel.setText("Check-out realizado con exito!");
+                }
             }
+
+            inputName.setText("Ingrese nombre");
+            inputName.setForeground(new Color(153, 153, 153));
+            inputLastName.setText("Ingrese apellido");
+            inputLastName.setForeground(new Color(153, 153, 153));        
         }
-        
-        inputName.setText("Ingrese nombre");
-        inputName.setForeground(new Color(153, 153, 153));
-        inputLastName.setText("Ingrese apellido");
-        inputLastName.setForeground(new Color(153, 153, 153));        
+        catch(Exception e){
+            System.out.println("catch");
+            inputName.setText("Ingrese nombre");
+            inputName.setForeground(new Color(153, 153, 153));
+            inputLastName.setText("Ingrese apellido");
+            inputLastName.setForeground(new Color(153, 153, 153)); 
+            errorLabel.setText("Error: no se encontro el cliente");
+        }
     }//GEN-LAST:event_searchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel errorLabel;
-    private javax.swing.JLabel imgCheckOut;
     private javax.swing.JTextField inputLastName;
     private javax.swing.JTextField inputName;
     private javax.swing.JLabel jLabel3;

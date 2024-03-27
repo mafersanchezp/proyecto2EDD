@@ -8,55 +8,98 @@ import java.util.NoSuchElementException;
  * @param <T>
  */
 public class List<T>{
+    //Atributos de la clase
     private Node<T> head;
     private Node<T> tail;
     private int size;
 
+    /**
+     * Constructor 1: Inicia la lista vacia
+     */
     public List() {
         this.head = null;
         this.tail = null;
         this.size = 0;
     }
     
+    /**
+     * Constructor 2: Inicia la lista con elementos
+     * @param dataArray 
+     */
     public List(T... dataArray){
         for(T data: dataArray){
             append(data);
         }
     }
-
+    
+    /**
+     * Obtiene la cabeza
+     * @return 
+     */
     public Node<T> getHead() {
         return head;
     }
-
+    
+    /**
+     * Cambia la cabeza
+     * @param head 
+     */
     public void setHead(Node<T> head) {
         this.head = head;
     }
-
+    
+    /**
+     * Obtiene la cola
+     * @return 
+     */
     public Node<T> getTail() {
         return tail;
     }
-
+    
+    /**
+     * Cambia la cola
+     * @param tail 
+     */
     public void setTail(Node<T> tail) {
         this.tail = tail;
     }
-
+    
+    /**
+     * Obtiene el tamaño
+     * @return 
+     */
     public int getSize() {
         return size;
     }
-
+    
+    /**
+     * Cambia el tamaño 
+     * @param size
+     */
     public void setSize(int size) {
         this.size = size;
     }
     
+    /**
+     * Devuelve true si la lista esta vacia
+     * @return 
+     */
     public boolean isEmpty(){
         return this.head == null;
     }
     
+    /**
+     * Obtiene el ultimo indice de la lista
+     * @return 
+     */
     public int lastIdx(){
         return this.size-1;
     }
     
-    
+    /**
+     * Agrega al final de la lista
+     * @param data 
+     */
     public void append(T data){
         if(isEmpty()){
             this.head = this.tail = new Node(data);
@@ -69,7 +112,10 @@ public class List<T>{
         this.size++;
     }
     
-    
+    /**
+     * Agrega al inicio de la lista
+     * @param data 
+     */
     public void preappend(T data){
         if(isEmpty()){
             this.head = this.tail = new Node(data);
@@ -83,7 +129,11 @@ public class List<T>{
     }
     
     
-    
+    /**
+     * Inserta un elemento dado un indice
+     * @param data
+     * @param idx 
+     */
     public void insert(T data, int idx){
         if(isEmpty()){
             this.head = this.tail = new Node(data);
@@ -110,6 +160,10 @@ public class List<T>{
         }
     }
     
+    /**
+     * Elimina el primero de la lista
+     * @return 
+     */
     public T removeHead(){
         if(isEmpty()){
             throw new NoSuchElementException("Lista vacia");
@@ -122,6 +176,10 @@ public class List<T>{
         }
     }
     
+    /**
+     * Elimina el ultimo de la lista
+     * @return 
+     */
     public T removeTail(){
         if(isEmpty()){
             throw new NoSuchElementException("Lista vacia");
@@ -139,6 +197,11 @@ public class List<T>{
         }
     }
     
+    /**
+     * Elimina el elemento del indice 
+     * @param idx
+     * @return 
+     */
     public T pop(int idx){
         if(isEmpty()){
             throw new NoSuchElementException("Lista vacia");
@@ -166,6 +229,11 @@ public class List<T>{
         }        
     }
     
+    /**
+     * Obtiene el elemento del indice
+     * @param idx
+     * @return 
+     */
     public T get(int idx){
         if(isEmpty()){
             throw new NoSuchElementException("Lista vacia");
@@ -191,7 +259,11 @@ public class List<T>{
         }    
     }
     
-    
+    /**
+     * Devuelve true si data esta en la lista
+     * @param data
+     * @return 
+     */
     public boolean contains(T data){
         if(isEmpty()){
             return false;
@@ -209,6 +281,10 @@ public class List<T>{
         }
     }
     
+    /**
+     * Metodo para imprimir la lista
+     * @return 
+     */
     @Override
     public String toString(){            
         String str = "[";

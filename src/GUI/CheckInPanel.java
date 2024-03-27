@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package GUI;
 
 import Classes.Booking;
@@ -20,9 +16,15 @@ import javax.swing.JLabel;
  * @author Mafer
  */
 public class CheckInPanel extends javax.swing.JPanel {
-    private BST bookingBST;
-    private HashTable stateTable;
+    //Atributos de la clase
+    BST bookingBST;
+    HashTable stateTable;
     
+    /**
+     * Constructor
+     * @param bookingBST
+     * @param stateTable 
+     */
     public CheckInPanel(BST bookingBST, HashTable stateTable) {
         initComponents();
         this.bookingBST = bookingBST;    
@@ -32,16 +34,10 @@ public class CheckInPanel extends javax.swing.JPanel {
         
     }
 
-
-    private void setImg(JLabel label, String root){
-          ImageIcon img = new ImageIcon(root);        
-          Icon icon = new ImageIcon(
-              img.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT)
-          );
-          label.setIcon(icon);
-          this.repaint();        
-    }
-    
+    /**
+     * Obtiene las habitaciones disponibles 
+     * @return 
+     */
     private String getAvaibleRoom(){
         List[] table = stateTable.getTable();
         
@@ -52,8 +48,7 @@ public class CheckInPanel extends javax.swing.JPanel {
                 
                 rooms.append(auxState.getRoomNum());
             }
-        }
-        System.out.println(rooms);
+        }        
         
         for (int i = 1; i <= 300; i++) {
             if(!rooms.contains(Integer.toString(i))){
@@ -71,7 +66,6 @@ public class CheckInPanel extends javax.swing.JPanel {
         inputId = new javax.swing.JTextField();
         search = new javax.swing.JButton();
         errorLabel = new javax.swing.JLabel();
-        imgCheckIn = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(252, 252, 252));
@@ -109,11 +103,10 @@ public class CheckInPanel extends javax.swing.JPanel {
         errorLabel.setForeground(new java.awt.Color(255, 0, 0));
         errorLabel.setText("Error Label");
         add(errorLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, 20));
-        add(imgCheckIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, 60, 60));
 
         jLabel3.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         jLabel3.setText("Check-In");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, -1, -1));
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void inputIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputIdFocusGained
@@ -131,49 +124,56 @@ public class CheckInPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_inputIdFocusLost
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
-        errorLabel.setForeground(Color.red);
-        errorLabel.setText("");
-
-        
-        String id = inputId.getText();        
-        
-        if(id.isBlank()){
-            errorLabel.setText("Error: Ingrese todos los campos del formulario");
-        }
-        else{
-            Booking booking = (Booking) bookingBST.get(id, "id");
-            bookingBST.remove(id, "id");
+        try{
             
-            if(booking == null){
-                errorLabel.setText("Error: no se encontro el cliente");
+            errorLabel.setForeground(Color.red);
+            errorLabel.setText("");
+
+
+            String id = inputId.getText();        
+
+            if(id.isBlank()){
+                errorLabel.setText("Error: Ingrese todos los campos del formulario");
             }
             else{
-                String name = booking.getName();
-                String lastName = booking.getLastName();
-                String email = booking.getEmail();
-                String sex = booking.getSex();
-                String phone = booking.getPhone();
-                String dateIn = booking.getDateIn();
-                
-                String roomNum = getAvaibleRoom();
-                
-                State newState = new State(id, roomNum, name, lastName, email, sex, phone, dateIn);
-                stateTable.insert(newState, "name", "lastName");
-                
-                errorLabel.setForeground(Color.green);
-                errorLabel.setText("EL check-in se ha realizado con exito!");
+                Booking booking = (Booking) bookingBST.get(id, "id");
+                System.out.println(booking);
+                bookingBST.remove(id, "id");
+                if(booking == null){
+                    errorLabel.setText("Error: no se encontro la reservacion");
+                }
+                else{
+                    String name = booking.getName();
+                    String lastName = booking.getLastName();
+                    String email = booking.getEmail();
+                    String sex = booking.getSex();
+                    String phone = booking.getPhone();
+                    String dateIn = booking.getDateIn();
+
+                    String roomNum = getAvaibleRoom();
+
+                    State newState = new State(id, roomNum, name, lastName, email, sex, phone, dateIn);
+                    stateTable.insert(newState, "name", "lastName");
+
+                    errorLabel.setForeground(Color.green);
+                    errorLabel.setText("EL check-in se ha realizado con exito!");
+                }
             }
+
+            inputId.setText("Ingrese cedula");
+            inputId.setForeground(new Color(153, 153, 153));
         }
-        
-        inputId.setText("Ingrese nombre");
-        inputId.setForeground(new Color(153, 153, 153));
+        catch(Exception e){
+            inputId.setText("Ingrese cedula");
+            inputId.setForeground(new Color(153, 153, 153));            
+            errorLabel.setText("Error: no se encontro la reservacion");
+        }
         
     }//GEN-LAST:event_searchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel errorLabel;
-    private javax.swing.JLabel imgCheckIn;
     private javax.swing.JTextField inputId;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JButton search;

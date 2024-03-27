@@ -2,7 +2,6 @@ package Classes;
 
 import DataStructures.BST;
 import DataStructures.HashTable;
-import DataStructures.List;
 import Interfaces.Excel;
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
@@ -18,10 +17,15 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 /**
  *
  * @author Mafer
- * @param <T>
  */
 public class ExcelReader implements Excel{
     
+    
+    /**
+     * Metodo para obtener una hoja del excel
+     * @param sheetNum
+     * @return 
+     */
     private static Sheet getExcelSheet(int sheetNum){
         String root = "Booking_hotel.xlsx";
         
@@ -46,7 +50,11 @@ public class ExcelReader implements Excel{
         return null;
     }
     
-    
+    /**
+     * Metodo para obtener una matriz con los valores de la hoja
+     * @param sheetNum
+     * @return 
+     */
     private static String[][] getSheetValues(int sheetNum){
         Sheet sheet = getExcelSheet(sheetNum);  
         
@@ -88,7 +96,10 @@ public class ExcelReader implements Excel{
     }
     
     
-    
+    /**
+     * Metodo que convierte la matriz de la hoja de estado en un hashTable
+     * @return 
+     */
     public static HashTable getState(){
         HashTable stateTable = new HashTable(1500);
         
@@ -108,7 +119,11 @@ public class ExcelReader implements Excel{
         return stateTable;
     }
     
-    
+    /**
+     * Metodo que convierte la matriz de la hoja de reserva en un BST
+     * @param <T>
+     * @return 
+     */
     public static <T extends Comparable<T>> BST<Booking> getBooking(){
         BST<Booking> bookingBst = new BST<>();
         
@@ -125,6 +140,11 @@ public class ExcelReader implements Excel{
         return bookingBst;
     }
     
+    /**
+     * Metodo que convierte la matriz de la hoja de historial en un BST
+     * @param <T>
+     * @return 
+     */
     public static <T extends Comparable<T>> BST<Booking> getRecord(){
         BST<Booking> recordBst = new BST<>();
         
@@ -132,6 +152,7 @@ public class ExcelReader implements Excel{
         
         for (String[] row: recordValues) {
             
+            row[0] = row[0].replace(".", "");            
             Record newRecord = new Record(row[0], row[1], row[2], row[3], row[4], row[5], row[6]);
             recordBst.insert((T) newRecord, "id");
             
@@ -140,9 +161,14 @@ public class ExcelReader implements Excel{
         return recordBst;
     }
     
-    
-    public static <T extends Comparable<T>> BST<Booking> getRoomGroup(){
-        BST<Booking> roomGroupBst = new BST<>();
+    /**
+     * Metodo que convierte la matriz de la hoja de historial en un BST
+     * ordenado por el numero de habitacion
+     * @param <T>
+     * @return 
+     */
+    public static <T extends Comparable<T>> BST<RoomGroup> getRoomGroup(){
+        BST<RoomGroup> roomGroupBst = new BST<>();
         
         String[][] recordValues = getSheetValues(RECORD);
         
@@ -153,7 +179,8 @@ public class ExcelReader implements Excel{
         }
         
         for (String[] row: recordValues) {
-
+            
+            row[0] = row[0].replace(".", "");
             Record newRecord = new Record(row[0], row[1], row[2], row[3], row[4], row[5], row[6]);
             
             int roomNum = Integer.parseInt(row[6]);

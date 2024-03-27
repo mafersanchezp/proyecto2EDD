@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package GUI;
 
 import Classes.Booking;
@@ -22,13 +18,16 @@ import javax.swing.JPanel;
  * @author Mafer
  */
 public class MainMenu extends javax.swing.JFrame {
-    private int xMouse, yMouse;
-    private HashTable stateTable;
-    private BST bookingBST;
-    private BST recordBST;
-    private BST roomGroupBST;
+    //Atributos de la clase
+    int xMouse, yMouse;
+    HashTable stateTable;
+    BST bookingBST;
+    BST recordBST;
+    BST roomGroupBST;
     
-    
+    /**
+     * Constructor
+     */
     public MainMenu() {        
         initComponents();
         this.setLocationRelativeTo(this);
@@ -39,8 +38,7 @@ public class MainMenu extends javax.swing.JFrame {
                 
   
         setImg(imgHotel, "src/Images/hotel_icon.png");
-        setImg(iconHotel, "src/Images/hotel_icon.png");
-        
+        setImg(iconHotel, "src/Images/hotel_icon.png");        
     }
 
     private void setImg(JLabel label, String root){
@@ -292,7 +290,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_checkInActionPerformed
 
     private void checkOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkOutActionPerformed
-        CheckOutPanel panel = new CheckOutPanel(stateTable, recordBST);
+        CheckOutPanel panel = new CheckOutPanel(stateTable, roomGroupBST);
         panel.setSize(rightContainer.getWidth(), rightContainer.getHeight());
         panel.setLocation(0, 0);
 

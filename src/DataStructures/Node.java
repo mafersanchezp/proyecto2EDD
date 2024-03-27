@@ -3,9 +3,10 @@ package DataStructures;
 /**
  *
  * @author Mafer
+ * @param <T>
  */
 public class Node<T> {
-    //-------------Atributos de la clase---------------       
+    //Atributos de la clase      
     private T data;
     private Node<T> next;    
     

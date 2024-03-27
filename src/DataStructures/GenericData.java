@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DataStructures;
 
 import java.lang.reflect.Field;
@@ -11,7 +7,15 @@ import java.lang.reflect.Field;
  * @author Mafer
  */
 public class GenericData {
-        
+    
+    /**
+     * Obtiene el dato de un objeto dado su atributo
+     * @param <A>
+     * @param <B>
+     * @param object
+     * @param attributeName
+     * @return 
+     */
     public static <A, B> B getGenericData(A object, String attributeName){
         if(object.getClass().getSimpleName().equals("String")){
             return (B) object;
@@ -32,7 +36,11 @@ public class GenericData {
         }        
     }
     
-    
+    /**
+     * Suma los caracteres de un string
+     * @param value
+     * @return 
+     */
     public static int sumStr(String value){
         int num = 0;
         
@@ -45,7 +53,11 @@ public class GenericData {
         return num;
     }
     
-    
+    /**
+     * Suma los digitos de un numero
+     * @param value
+     * @return 
+     */
     public static int sumInt(int value){
         int num = 0;
         
@@ -59,6 +71,13 @@ public class GenericData {
         return num;        
     }
     
+    /**
+     * Devuelde el campo del objeto dado un atibuto
+     * @param <T>
+     * @param object
+     * @param name
+     * @return 
+     */
     public static <T> Field getAttributeField(T object, String name){
         Field[] fieldsBase = object.getClass().getDeclaredFields();
         Field[] fieldsSuper = object.getClass().getSuperclass().getDeclaredFields();
@@ -78,11 +97,24 @@ public class GenericData {
         return null;
     }
     
-    
+    /**
+     * Compara si un dato generico es mayor que otro
+     * @param <T>
+     * @param objectA
+     * @param objectB
+     * @return 
+     */
     public static <T extends Comparable<T>> boolean greaterThan(T objectA, T objectB){
         return objectA.compareTo(objectB) > 0;
     }
     
+    /**
+     * Compara si un dato generico es menor que otro
+     * @param <T>
+     * @param objectA
+     * @param objectB
+     * @return 
+     */
     public static <T extends Comparable<T>> boolean lessThan(T objectA, T objectB){        
         return objectA.compareTo(objectB) < 0;
     }
