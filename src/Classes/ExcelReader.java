@@ -1,5 +1,7 @@
 package Classes;
 
+import DataStructures.HashTable;
+import Interfaces.Excel;
 import java.io.FileInputStream;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -12,7 +14,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
  *
  * @author Mafer
  */
-public class ExcelReader{
+public class ExcelReader implements Excel{
     
     private static Sheet getExcelSheet(int sheetNum){
         String root = "Booking_hotel.xlsx";
@@ -45,9 +47,9 @@ public class ExcelReader{
         int rows = sheet.getPhysicalNumberOfRows();
         int cells = sheet.getRow(0).getPhysicalNumberOfCells();
         
-        String[][] excelValues = new String[rows][cells];
+        String[][] excelValues = new String[rows-1][cells];
         
-        for (int i = 0; i < rows; i++) {
+        for (int i = 1; i < rows; i++) {
             Row row = sheet.getRow(i);
             
             for (int j = 0; j < cells; j++) {
@@ -63,10 +65,27 @@ public class ExcelReader{
                 }
                 
                 
-                excelValues[i][j] = value;                
+                excelValues[i-1][j] = value;                
             }            
         }        
         return excelValues;                
+    }
+    
+    
+    
+    public static HashTable getState(){
+        HashTable stateTable = new HashTable(1500);
+        
+        String[][] stateValues = getSheetValues(STATE);
+        
+        for (String[] row: stateValues) {
+                        
+            State newState = new State(row[0], row[1], row[2], row[3], row[4], row[5], row[6]);                        
+            stateTable.insert(newState, "name", "lastName");
+            
+        }
+        
+        return stateTable;
     }
     
     

@@ -11,30 +11,70 @@ import java.lang.reflect.Field;
  * @author Mafer
  */
 public class GenericData {
-    
-    
-    public static <T> String getGenericData(T data, String attributeName){
-        Field[] fields = data.getClass().getDeclaredFields();
         
-        boolean find = false;
-        for(Field field: fields){
-            if(field.getName().equals(attributeName)){
-                find = true;
-            }            
+    public static <A, B> B getGenericData(A object, String attributeName){
+        if(object.getClass().getSimpleName().equals("String")){
+            return (B) object;
         }
-        
-        if(find){
+        else{
             try{
-                Field field = data.getClass().getDeclaredField(attributeName);
-                field.setAccessible(true); 
-                String value = (String) field.get(data);   
-                return value;
+                Field field = getAttributeField(object, attributeName);
                 
+                field.setAccessible(true); 
+                B value = (B) field.get(object);  
+                                
+                return value;
             }
             catch(Exception e){
                 System.out.println(e);
+                return null;
+            }                       
+        }        
+    }
+    
+    
+    public static int sumStr(String value){
+        int num = 0;
+        
+        char[] valueStrArray = value.toCharArray();
+
+        for (char c: valueStrArray) {
+            num += c;
+        }
+        
+        return num;
+    }
+    
+    
+    public static int sumInt(int value){
+        int num = 0;
+        
+        String valueStr = Integer.toString(value);
+        char[] valueStrArray = valueStr.toCharArray();
+        
+        for (char c: valueStrArray) {
+            num += c;
+        }
+        
+        return num;        
+    }
+    
+    public static <T> Field getAttributeField(T object, String name){
+        Field[] fieldsBase = object.getClass().getDeclaredFields();
+        Field[] fieldsSuper = object.getClass().getSuperclass().getDeclaredFields();
+        
+        for(Field field: fieldsBase){
+            if(field.getName().equals(name)){
+                return field;
             }
         }
+        
+        for(Field field: fieldsSuper){
+            if(field.getName().equals(name)){
+                return field;
+            }
+        }                
+        
         return null;
     }
 }

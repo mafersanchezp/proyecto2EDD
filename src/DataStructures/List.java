@@ -210,10 +210,9 @@ public class List<T>{
     }
     
     @Override
-    public String toString(){
-        String str = null;
+    public String toString(){            
+        String str = "[";
         if(!isEmpty()){
-            str = "[";
             
             Node pointer = this.head;
             while(pointer != null){
@@ -225,9 +224,9 @@ public class List<T>{
                 }
                 pointer = pointer.getNext();
             }
-            str += "]";
             
         }
+        str += "]";
         return str;
     }
     

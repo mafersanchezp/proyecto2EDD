@@ -17,6 +17,12 @@ public class State extends Client{
         this.roomNum = roomNum;
         this.phone = phone;
     }
+    
+    public State(String roomNum, String name, String lastName, String email, String sex, String phone, String dateIn) {
+        super(name, lastName, email, sex, dateIn);
+        this.roomNum = roomNum;
+        this.phone = phone;
+    }
 
     public String getRoomNum() {
         return roomNum;
