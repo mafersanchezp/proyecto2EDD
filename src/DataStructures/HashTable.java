@@ -26,6 +26,10 @@ public class HashTable<T> extends GenericData {
         this.table = table;
     }
     
+    public int getSize(){
+        return this.table.length;
+    }
+    
             
     private int hash(T... values){
         int idx = 0;
@@ -66,18 +70,20 @@ public class HashTable<T> extends GenericData {
     
     public void insert(T object, String... attributeNames){
         T[] values = (T[]) new Object[attributeNames.length];
-                
-        T data1 = getGenericData(object, attributeNames[0]);
-        T data2 = getGenericData(object, attributeNames[1]);
+        
+        if(attributeNames.length == 2){
+            T data1 = getGenericData(object, attributeNames[0]);
+            T data2 = getGenericData(object, attributeNames[1]);
 
-        for (int i = 0; i < attributeNames.length; i++) {                                                
-            values[i] = getGenericData(object, attributeNames[i]);            
+            for (int i = 0; i < attributeNames.length; i++) {                                                
+                values[i] = getGenericData(object, attributeNames[i]);            
+            }
+
+            int idx = hash(values);                        
+
+            List bucket = this.table[idx];
+            bucket.append(object);                    
         }
-        
-        int idx = hash(values);                        
-        
-        List bucket = this.table[idx];
-        bucket.append(object);        
     }
     
     

@@ -2,9 +2,13 @@ package Classes;
 
 import DataStructures.BST;
 import DataStructures.HashTable;
+import DataStructures.List;
 import Interfaces.Excel;
 import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -57,8 +61,18 @@ public class ExcelReader implements Excel{
             for (int j = 0; j < cells; j++) {
                 Cell cell = row.getCell(j);
                 
-                DataFormatter dataFormatter = new DataFormatter();
-                String value = dataFormatter.formatCellValue(cell);
+                String value = "";
+                if(cell != null){
+                    if(cell.getCellTypeEnum() == CellType.FORMULA){
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
+                        Date date = cell.getDateCellValue();
+                        value = formatter.format(date);                        
+                    }
+                    else{
+                        DataFormatter dataFormatter = new DataFormatter();
+                        value = dataFormatter.formatCellValue(cell);                        
+                    }
+                }
                 
                 if(j == 0){
                     if(value.isBlank()){
@@ -80,12 +94,17 @@ public class ExcelReader implements Excel{
         
         String[][] stateValues = getSheetValues(STATE);
         
-        for (String[] row: stateValues) {
-                        
+        for (int i = 0; i < stateValues.length; i++) {
+            String[] row = stateValues[i];
+            
+            if(row[0] == null){
+                row[0] = stateValues[i-1][0];
+            }
+            
             State newState = new State(row[0], row[1], row[2], row[3], row[4], row[5], row[6]);                        
             stateTable.insert(newState, "name", "lastName");
-            
-        }        
+        }
+      
         return stateTable;
     }
     
@@ -97,6 +116,7 @@ public class ExcelReader implements Excel{
         
         for (String[] row: bookingValues) {
             
+            row[0] = row[0].replace(".", "");
             Booking newBooking = new Booking(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]);
             bookingBst.insert((T) newBooking, "id");
             
@@ -104,6 +124,50 @@ public class ExcelReader implements Excel{
         
         return bookingBst;
     }
+    
+    public static <T extends Comparable<T>> BST<Booking> getRecord(){
+        BST<Booking> recordBst = new BST<>();
+        
+        String[][] recordValues = getSheetValues(RECORD);
+        
+        for (String[] row: recordValues) {
+            
+            Record newRecord = new Record(row[0], row[1], row[2], row[3], row[4], row[5], row[6]);
+            recordBst.insert((T) newRecord, "id");
+            
+        }
+        
+        return recordBst;
+    }
+    
+    
+    public static <T extends Comparable<T>> BST<Booking> getRoomGroup(){
+        BST<Booking> roomGroupBst = new BST<>();
+        
+        String[][] recordValues = getSheetValues(RECORD);
+        
+        RoomGroup[] rooms = new RoomGroup[300];
+        for (int i = 0; i < 300; i++) {
+            RoomGroup rg = new RoomGroup(Integer.toString(i+1));
+            rooms[i] = rg;
+        }
+        
+        for (String[] row: recordValues) {
+
+            Record newRecord = new Record(row[0], row[1], row[2], row[3], row[4], row[5], row[6]);
+            
+            int roomNum = Integer.parseInt(row[6]);
+            rooms[roomNum-1].getGroup().append(newRecord);            
+               
+        }
+        
+        for(RoomGroup rg: rooms){
+            roomGroupBst.insert((T) rg, "roomNum");
+        }
+        return roomGroupBst;
+    }
+    
+    
     
     
     

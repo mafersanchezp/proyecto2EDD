@@ -27,7 +27,7 @@ public class BST<T> extends GenericData{
     }
     
     
-    public <T extends Comparable<T>> void insert(T object, String sortAttribute){
+    public <T extends Comparable<T>> void insert(T object, String sortAttribute){        
         insert(root, object, sortAttribute);
     }
     
@@ -62,7 +62,7 @@ public class BST<T> extends GenericData{
     }
     
       
-    private <T extends Comparable<T>> void insert(NodeBST current, T object, String sortAttribute){
+    private <T extends Comparable<T>> void insert(NodeBST current, T object, String sortAttribute){        
         if(root == null){
             root = new NodeBST(object);
         }
@@ -92,7 +92,7 @@ public class BST<T> extends GenericData{
         }
     }
     
-    private <T extends Comparable<T>> void insert(NodeBST current, T object){
+    private <T extends Comparable<T>> void insert(NodeBST current, T object){        
         if(root == null){
             root = new NodeBST(object);
         }
@@ -126,7 +126,7 @@ public class BST<T> extends GenericData{
     private <T extends Comparable<T>> T get(NodeBST current, T value, String sortAttribute){
         if(root != null){
             T currentData = getGenericData(current.getData(), sortAttribute);
-            
+                        
             if(lessThan(value, currentData)){
                 return get(current.getLeft(), value, sortAttribute);                                    
             }
@@ -162,7 +162,7 @@ public class BST<T> extends GenericData{
         if(root != null){
             T rootData = getGenericData(root.getData(), sortAttribute);
             
-            if(value == rootData){
+            if(value.equals(rootData)){                
                 NodeBST succesor = findSuccessor(root);                    
                 
                 T succesorData = getGenericData(succesor.getData(), sortAttribute);
@@ -181,7 +181,7 @@ public class BST<T> extends GenericData{
                 else{
                     child = current.getRight();
                 }
-
+                                
                 T childData = getGenericData(child.getData(), sortAttribute);            
 
 

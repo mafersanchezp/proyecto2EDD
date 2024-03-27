@@ -8,7 +8,7 @@ package Classes;
  *
  * @author Mafer
  */
-public class Record extends Client{
+public class Record extends Client implements Comparable<Record>{
     private String roomNum;
 
     public Record(String id, String name, String lastName, String email, String sex, String dateIn, String roomNum) {
@@ -22,6 +22,18 @@ public class Record extends Client{
 
     public void setRoomNum(String roomNum) {
         this.roomNum = roomNum;
+    }
+
+    @Override
+    public String toString() {
+        return "Nombre: " + getName() + " | Ci: " + getId() + " | numHab: " + roomNum;
+    }
+
+    
+    
+    @Override
+    public int compareTo(Record o) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     
