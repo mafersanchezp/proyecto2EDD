@@ -1,5 +1,6 @@
 package Classes;
 
+import DataStructures.BST;
 import DataStructures.HashTable;
 import Interfaces.Excel;
 import java.io.FileInputStream;
@@ -13,6 +14,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 /**
  *
  * @author Mafer
+ * @param <T>
  */
 public class ExcelReader implements Excel{
     
@@ -83,10 +85,30 @@ public class ExcelReader implements Excel{
             State newState = new State(row[0], row[1], row[2], row[3], row[4], row[5], row[6]);                        
             stateTable.insert(newState, "name", "lastName");
             
-        }
-        
+        }        
         return stateTable;
     }
+    
+    
+    public static <T extends Comparable<T>> BST<Booking> getBooking(){
+        BST<Booking> bookingBst = new BST<>();
+        
+        String[][] bookingValues = getSheetValues(BOOKING);
+        
+        for (String[] row: bookingValues) {
+            
+            Booking newBooking = new Booking(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]);
+            bookingBst.insert((T) newBooking, "id");
+            
+        }
+        
+        return bookingBst;
+    }
+    
+    
+    
+    
+    
     
     
     

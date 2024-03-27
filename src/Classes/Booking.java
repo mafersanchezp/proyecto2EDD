@@ -8,7 +8,7 @@ package Classes;
  *
  * @author Mafer
  */
-public class Booking extends Client {
+public class Booking extends Client implements Comparable<Booking>{
     private String roomType;
     private String phone;
     private String dateOut;
@@ -43,6 +43,18 @@ public class Booking extends Client {
     public void setDateOut(String dateOut) {
         this.dateOut = dateOut;
     }
+
+    @Override
+    public int compareTo(Booking o) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String toString() {
+        return "Nombre: " + getName() + " | Apellido: " + getLastName() + " | Cedula: " + getId();
+    }
+    
+    
     
     
     

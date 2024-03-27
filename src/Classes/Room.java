@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Classes;
 
 /**
  *
  * @author Mafer
  */
-public class Room {
+public class Room implements Comparable<Room>{
     private String roomNum;
     private String roomType;
     private String floor;
@@ -42,6 +38,18 @@ public class Room {
     public void setFloor(String floor) {
         this.floor = floor;
     }
+
+    @Override
+    public int compareTo(Room o) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String toString() {
+        return "numeroHab: " + roomNum + " | tipoHab: " + roomType + " | floor: " + floor;
+    }
+    
+    
     
     
 }

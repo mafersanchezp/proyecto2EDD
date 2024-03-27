@@ -19,14 +19,14 @@ public class GenericData {
         else{
             try{
                 Field field = getAttributeField(object, attributeName);
-                
+                                
                 field.setAccessible(true); 
                 B value = (B) field.get(object);  
                                 
                 return value;
             }
             catch(Exception e){
-                System.out.println(e);
+                System.out.println("Error: " + e);
                 return null;
             }                       
         }        
@@ -62,9 +62,9 @@ public class GenericData {
     public static <T> Field getAttributeField(T object, String name){
         Field[] fieldsBase = object.getClass().getDeclaredFields();
         Field[] fieldsSuper = object.getClass().getSuperclass().getDeclaredFields();
-        
-        for(Field field: fieldsBase){
-            if(field.getName().equals(name)){
+                
+        for(Field field: fieldsBase){            
+            if(field.getName().equals(name)){                
                 return field;
             }
         }
@@ -77,4 +77,16 @@ public class GenericData {
         
         return null;
     }
+    
+    
+    public static <T extends Comparable<T>> boolean greaterThan(T objectA, T objectB){
+        return objectA.compareTo(objectB) > 0;
+    }
+    
+    public static <T extends Comparable<T>> boolean lessThan(T objectA, T objectB){        
+        return objectA.compareTo(objectB) < 0;
+    }
+    
+    
+    
 }
